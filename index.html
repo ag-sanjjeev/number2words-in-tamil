@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Number 2 Text</title>
+
+	<!-- Styles -->
+	<link rel="stylesheet" type="text/css" href="./thirdparty/bootstrap/bootstrap.css" media="all" />
+	<link rel="stylesheet" type="text/css" href="./thirdparty/icons/fontawesome/css/all.css" media="all" />
+</head>
+<body>
+
+	<section class="main container-fluid">
+		
+		<div class="row d-flex justify-content-center align-items-center vh-100">
+			
+			<div class="col-md-6 col-lg-4">
+				
+				<!-- Form -->
+				<form action="#" method="post" onsubmit="return convertNum2Txt(this);" class="card px-0 py-0 rounded shadow">
+					
+					<div class="card-body form-group px-4 py-3">
+						<label for="number" class="form-label mb-3">Number Input</label>
+						<input type="text" name="number" id="number" class="form-control mb-3" placeholder="Enter the number" autofocus required />
+
+						<button type="submit" class="btn btn-success w-100">Convert</button>
+					</div>
+
+					<div class="card-footer px-4">
+						<p class="small">Text Output</p>
+						<p class="lead text-start pill badge bg-primary" id="resultText"></p>
+					</div>
+
+				</form>
+
+			</div>
+
+		</div>
+
+	</section>
+
+	<!-- Scripts -->
+	<script type="text/javascript" src="./thirdparty/scripts/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="./thirdparty/bootstrap/bootstrap.bundle.js"></script>
+
+	<!-- Custom Script -->
+	<script type="text/javascript">
+		
+		function convertNum2Txt(form) {
+
+			var number = form.number.value;
+			var resultContainer = document.getElementById('resultText');
+
+
+			console.log(number);
+			resultContainer.innerHTML = number;
+			return false;
+		}
+
+	</script>
+</body>
+</html>
