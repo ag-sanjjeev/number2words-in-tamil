@@ -39,6 +39,7 @@
 
 					<div class="card-footer px-4">
 						<p class="small">Text Output</p>
+						<p class="lead text-end pill badge bg-secondary text-wrap text-break lh-base" id="formattedNumber"></p>
 						<p class="lead text-start pill badge bg-primary text-wrap text-break lh-base" id="resultText"></p>
 					</div>
 
@@ -178,10 +179,12 @@
 
 			var number = form.number.value;
 			var numberText = '';
+			var decimalPartText = '';
 			var resultContainer = document.getElementById('resultText');
 
 			var isCurrency = document.getElementById('currencyFormat').checked;
 			let rupeeSign = '';
+			let decimalPartAdditional = '';
 
 
 			if (!isValid(number)) {
@@ -196,6 +199,38 @@
 
 			var [integerPart, decimalPart] = formattedNumber.split('.');
 			var splitIntNumber = integerPart.split(',');
+
+			if (!isValid(decimalPart)) {
+				decimalPart = 0;
+			}
+			
+			if (decimalPart > 0) {
+
+				if (isCurrency) {
+					decimalPart = decimalPart.toString().substr(0,2);					
+					
+					decimalPart = parseInt(decimalPart.toString().padEnd(2, 0))
+					if (decimalPart > 0) {
+						decimalPartText = __numbers[(decimalPart - 1)] + ' பைசா ';
+						decimalPartAdditional = 'மற்றும்';
+					}
+
+				} else {
+					decimalPart = decimalPart.toString().split('');
+
+					decimalPart.forEach(function(_x) {
+						_x = parseInt(_x);
+						if (_x == 0) {
+							decimalPartText += 'சுழியம்' + ' ';
+						} else {
+							decimalPartText += __numbers[(_x - 1)] + ' ';
+						}						
+					});
+
+					decimalPartAdditional = 'புள்ளி';					
+				}
+
+			}
 
 			var lakhIntNumber = splitIntNumber.reverse().slice(0, 3);
 			var croreIntNumber = splitIntNumber.slice(3, splitIntNumber.length);
@@ -276,9 +311,15 @@
 				rupeeSign = '<i class="fa fa-rupee-sign pe-2"></i>';
 			}
 
-			resultContainer.innerHTML = rupeeSign + numberText;
-			// return false;
-			return numberText;
+			resultContainer.innerHTML = rupeeSign + numberText + ' ' + decimalPartAdditional + ' ' +decimalPartText;
+
+			let [number1, number2] = formattedNumber.split('.');
+			number2 = (isValid(number2)) ? number2 : 0;			
+			number2 = number2.toString().padEnd(2, 0);			
+
+			document.getElementById('formattedNumber').innerHTML = number1 + '.' + number2;
+
+			return false;
 		}
 
 		function isValid(number) {
@@ -308,7 +349,6 @@
 			let text = '';
 			let i = 0;
 			if (!isValid(number)) {
-				//text = __numbers[number];
 				console.warn('Invalid number', number);
 				return false;
 			}			
