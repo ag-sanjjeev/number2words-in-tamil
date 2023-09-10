@@ -169,6 +169,8 @@
 		const __placesValue = ["ஆயிரம்", "லட்சம்", "கோடி"];
 
 		const __placesValue_continous = ["ஆயிரத்து", "லட்சத்து", "கோடியே"];
+
+		const __numbers_alt = ["ஒரு"];
 	</script>
 
 	<script type="text/javascript">
@@ -211,7 +213,13 @@
 					
 					decimalPart = parseInt(decimalPart.toString().padEnd(2, 0))
 					if (decimalPart > 0) {
-						decimalPartText = __numbers[(decimalPart - 1)] + ' பைசா ';
+						
+						if (decimalPart == 1) {
+							decimalPartText = __numbers_alt[(decimalPart - 1)] + ' பைசா ';
+						} else {							
+							decimalPartText = __numbers[(decimalPart - 1)] + ' பைசா ';
+						}
+
 						decimalPartAdditional = 'மற்றும்';
 					}
 
@@ -266,16 +274,19 @@
 				} else {
 					hasAnyVoid = true;
 				}
-
-				textValue = textForNumber(i, placeIndex, hasAnyVoid);
+				
+				textValue = textForNumber(i, placeIndex, false, hasAnyVoid);
 				numberText += (textValue === false) ? '' : textValue + ' ';
 			});			
 
 			if (numberText.trim() != '') {
-				if (parseInt(lakhIntNumber[0]) == 0) {
-					numberText += __placesValue[2] + ' ';
-				} else {
+				
+				let lakhIntNumber_filtered = lakhIntNumber.filter(function(g) { let f = parseInt(g); if (f > 0) { return f } });
+
+				if (lakhIntNumber_filtered.length > 0) {
 					numberText += __placesValue_continous[2] + ' ';
+				} else {
+					numberText += __placesValue[2] + ' ';
 				}
 			}
 			
@@ -301,7 +312,8 @@
 					hasAnyVoid = true;
 				}
 
-				textValue = textForNumber(i, placeIndex, hasAnyVoid);
+				let isLastDigit = (lakhIntNumber.length == (j+1));
+				textValue = textForNumber(i, placeIndex, isLastDigit, hasAnyVoid);
 				numberText += (textValue === false) ? '' : textValue + ' ';
 			});	
 
@@ -344,7 +356,7 @@
 			return formattedNumber;
 		}
 
-		function textForNumber(number, place, hasAnyVoid = true) {
+		function textForNumber(number, place, isLastDigit,hasAnyVoid = true) { 
 			var number = parseInt(number);
 			let text = '';
 			let i = 0;
@@ -368,14 +380,28 @@
 					}
 
 					i = parseInt(number%100) - 1; 
-					text += __numbers[i];
+					
+					if (i == 0 && hasAnyVoid && !isLastDigit) {
+						text += __numbers_alt[i];
+					} else {
+						text += __numbers[i]; 
+					}
+					// text += __numbers[i];
 				} 
 			} else if (place == 1) {
 				i = parseInt(number%100) - 1; 
-				text = __numbers[i]; 
+				if (i == 0) {
+					text = __numbers_alt[i];
+				} else {
+					text = __numbers[i]; 
+				}
 			} else if (place == 2) {
 				i = parseInt(number%100) - 1; 
-				text = __numbers[i]; 
+				if (i == 0) {
+					text = __numbers_alt[i];
+				} else {
+					text = __numbers[i]; 
+				}
 			} else if (place > 2) {
 				console.warn('Out of range');
 				return false;				
