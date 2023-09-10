@@ -19,12 +19,12 @@ This project is a converter tool that converts from number to words. Especially 
 
 Here are some screenshots of the project:
 
-![Screenshot 1](.\docs\screenshot1.jpg)
-![Screenshot 2](.\docs\screenshot2.jpg)
-![Screenshot 3](.\docs\screenshot3.jpg)
-![Screenshot 4](.\docs\screenshot4.jpg)
-![Screenshot 5](.\docs\screenshot5.jpg)
-![Screenshot 6](.\docs\screenshot6.jpg)
+![Screenshot 1](../master/docs/screenshot1.jpg)
+![Screenshot 2](../master/docs/screenshot2.jpg)
+![Screenshot 3](../master/docs/screenshot3.jpg)
+![Screenshot 4](../master/docs/screenshot4.jpg)
+![Screenshot 5](../master/docs/screenshot5.jpg)
+![Screenshot 6](../master/docs/screenshot6.jpg)
 
 ## Installation
 
