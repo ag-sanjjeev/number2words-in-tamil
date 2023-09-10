@@ -327,7 +327,9 @@ function convertNum2Txt(form) {
 	}
 
 	// Displaying result in appropriate location with all other details
-	resultContainer.innerHTML = rupeeSign + numberText + ' ' + decimalPartAdditional + ' ' +decimalPartText;
+	let finalResultText = rupeeSign + numberText + ' ' + decimalPartAdditional + ' ' +decimalPartText;
+	finalResultText = convertMixedUnicodeToText(finalResultText);
+	resultContainer.innerHTML = finalResultText;
 
 	// Converting number as formated as Indian number system
 	let [number1, number2] = formattedNumber.split('.');
@@ -451,4 +453,11 @@ function textForNumber(number, place, isLastDigit,hasAnyVoid = true) {
 
 	// returns number with place text for corresponding given number
 	return text;			
+}
+
+// Function to convert from mixed unicode string to proper unicode
+function convertMixedUnicodeToText(mixedString) {
+    const unicodePattern = /&#(\d+);/g;
+    const convertedString = mixedString.replace(unicodePattern, (match, p1) => String.fromCharCode(p1));
+    return convertedString;
 }
