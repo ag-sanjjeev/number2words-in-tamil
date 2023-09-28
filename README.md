@@ -30,7 +30,7 @@ Here are some screenshots of the project:
 
 To install the project, follow these steps:
 
-If you want to run on any device with Internet then follow this link.
+If you want to run on any device with Internet then follow this [link](https://arathinai.blogspot.com/p/number-to-words.html).
 Otherwise to run on your device without Internet then follow the below steps.
 
 1. Clone the repository to your local machine or Download this repository.
