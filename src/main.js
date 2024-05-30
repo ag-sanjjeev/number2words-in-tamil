@@ -135,7 +135,10 @@ function convertNum2Txt(form) {
 
 	// Getting the condition for currency format
 	var isCurrency = document.getElementById('currencyFormat').checked;
+	var currencyPrefix = document.getElementById('currencyPrefix').checked;
+	var currencySuffix = document.getElementById('currencySuffix').checked;
 	let rupeeSign = '';
+	let rupeeText = '';
 	let decimalPartAdditional = '';
 
 	// Checks whether the given number is valid and in limit
@@ -321,13 +324,19 @@ function convertNum2Txt(form) {
 	// Trimming any white spaces from text line
 	numberText = numberText.trim();
 
-	// Adding currency symbol if currency format checked
-	if (isCurrency) {
+	// Adding currency symbol if currency format and currencyPrefix checked
+	if (isCurrency && currencyPrefix) {
 		rupeeSign = '<i class="fa fa-rupee-sign pe-2"></i>';
 	}
 
+	// Adding currency text if currency format and currencySuffix checked
+	if (isCurrency && currencySuffix) {
+		rupeeText = "ரூபாய்";
+	}
+
+
 	// Displaying result in appropriate location with all other details
-	let finalResultText = rupeeSign + numberText + ' ' + decimalPartAdditional + ' ' +decimalPartText;
+	let finalResultText = rupeeSign + numberText + ' ' + decimalPartAdditional + ' ' + decimalPartText + ' ' + rupeeText;
 	finalResultText = convertMixedUnicodeToText(finalResultText);
 	resultContainer.innerHTML = finalResultText;
 
@@ -345,6 +354,12 @@ function convertNum2Txt(form) {
 
 // Function to check whether it is valid or not
 function isValid(number) {
+
+	// Trimming whitespaces in the number input
+	if (typeof number === 'string') {		
+		number = number.trim();
+	}
+
 	if (number == 'undefined' || number == undefined || number == 'null' || number == null || number < 0 || number == '' || isNaN(number)) {
 		return false;
 	} 
@@ -460,4 +475,28 @@ function convertMixedUnicodeToText(mixedString) {
     const unicodePattern = /&#(\d+);/g;
     const convertedString = mixedString.replace(unicodePattern, (match, p1) => String.fromCharCode(p1));
     return convertedString;
+}
+
+// Function to show and hide rupee prefix and suffix input check box
+function togglecurrencyPrefixSuffixInput() {
+	var formInputsId = 'currencyPrefixSuffixFormInputs';
+
+	let formInputs = document.getElementById(formInputsId);
+
+	if (formInputs.classList.contains('d-none')) {
+		formInputs.classList.remove('d-none');
+	} else {
+		formInputs.classList.add('d-none');
+	}
+}
+
+/*==============================*/
+/*       Onload Function        */
+/*==============================*/
+
+window.onload = function () {
+
+	// Event Listener for On change event of Currency Checkbox Input
+	document.getElementById('currencyFormat').addEventListener('change', togglecurrencyPrefixSuffixInput);
+
 }

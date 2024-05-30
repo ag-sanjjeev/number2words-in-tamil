@@ -6,12 +6,12 @@
 	<title>எண் - எழுத்து மாற்றி</title>
 
 	<!-- Styles -->
-	<!-- <link rel="stylesheet" type="text/css" href="./thirdparty/bootstrap/bootstrap.css" media="all" /> -->
-	<!-- <link rel="stylesheet" type="text/css" href="./thirdparty/icons/fontawesome/css/all.css" media="all" /> -->
+	<link rel="stylesheet" type="text/css" href="./thirdparty/bootstrap/bootstrap.css" media="all" />
+	<link rel="stylesheet" type="text/css" href="./thirdparty/icons/fontawesome/css/all.css" media="all" />
 	<!-- CDNs -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css" integrity="sha512-usVBAd66/NpVNfBge19gws2j6JZinnca12rAe2l+d+QkLU9fiG02O1X8Q6hepIpr/EYKZvKx/I9WsnujJuOmBA==" crossorigin="anonymous" referrerpolicy="no-referrer" media="all" />
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css" integrity="sha512-usVBAd66/NpVNfBge19gws2j6JZinnca12rAe2l+d+QkLU9fiG02O1X8Q6hepIpr/EYKZvKx/I9WsnujJuOmBA==" crossorigin="anonymous" referrerpolicy="no-referrer" media="all" /> -->
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" media="all" />
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" media="all" /> -->
 
 </head>
 <body>
@@ -33,15 +33,27 @@
 
 					<div class="card-body px-4 py-3">
 						<div class="form-group mb-3">
-							<label for="number" class="form-label mb-3">எண்கள் உள்ளீடு</label>
-							<input type="text" name="number" id="number" class="form-control mb-3" placeholder="எண்களை உள்ளிடுக" value="" autofocus required />
+							<label for="number" class="form-label mb-3" role="button">எண்கள் உள்ளீடு</label>
+							<input type="text" name="number" id="number" class="form-control mb-3 user-select-none" placeholder="எண்களை உள்ளிடுக" value="" autofocus required />
 						</div>
 
 						<div class="form-group mb-3">
-							<input type="checkbox" name="currencyFormat" id="currencyFormat" class="form-check-input" value="true" checked />
-							<label for="currencyFormat" class="form-check-label">பண முறை</label>
+							<input type="checkbox" name="currencyFormat" id="currencyFormat" class="form-check-input" value="true" />
+							<label for="currencyFormat" class="form-check-label user-select-none" role="button">பண முறை</label>
 						</div>
 
+						<div class="form-group mb-3 d-flex flex-wrap d-none" id="currencyPrefixSuffixFormInputs">
+							<div class="pe-3 pb-3">							
+								<input type="checkbox" name="currencyPrefix" id="currencyPrefix" class="form-check-input" value="true" />
+								<label for="currencyPrefix" class="form-check-label user-select-none" role="button">ரூபாய் குறியீடு</label>
+							</div>
+
+							<div class="">
+								<input type="checkbox" name="currencySuffix" id="currencySuffix" class="form-check-input" value="true" />
+								<label for="currencySuffix" class="form-check-label user-select-none" role="button">ரூபாய் பின்னொட்டு</label>
+							</div>
+						</div>
+					
 						<div class="form-group">
 							<button type="submit" class="btn btn-success w-100">மாற்றுக</button>
 						</div>
@@ -63,13 +75,13 @@
 	</section>
 
 	<!-- Scripts -->
-	<!-- <script type="text/javascript" src="./thirdparty/scripts/jquery-3.6.0.min.js"></script> -->
-	<!-- <script type="text/javascript" src="./thirdparty/bootstrap/bootstrap.bundle.js"></script> -->
+	<script type="text/javascript" src="./thirdparty/scripts/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="./thirdparty/bootstrap/bootstrap.bundle.js"></script>
 
 	<!-- CDNs -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js" integrity="sha512-72WD92hLs7T5FAXn3vkNZflWG6pglUDDpm87TeQmfSg8KnrymL2G30R7as4FmTwhgu9H7eSzDCX3mjitSecKnw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js" integrity="sha512-72WD92hLs7T5FAXn3vkNZflWG6pglUDDpm87TeQmfSg8KnrymL2G30R7as4FmTwhgu9H7eSzDCX3mjitSecKnw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
 	<!-- Custom Script -->
 	<script type="text/javascript" src="./src/main.js"></script>
