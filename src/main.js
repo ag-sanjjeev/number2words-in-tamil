@@ -495,6 +495,51 @@ function togglecurrencyPrefixSuffixInput() {
 	}
 }
 
+// Function to copy the content into the clipboard
+function copyToClipBoard(content) {	
+
+	// Checking for clipboard functionality under navigator api 
+	if (!navigator.clipboard) {
+		console.warn('clipboard access denied');
+
+		// Creating temporary textarea input to copy 
+		let tempTextarea = document.createElement('textarea');
+		tempTextarea.value = content;
+		
+		// Avoid scrolling to bottom
+		tempTextarea.style.top = "0";
+		tempTextarea.style.left = "0";
+		tempTextarea.style.position = "fixed";
+
+		// Appending to body of the document
+		document.body.appendChild(tempTextarea);
+		tempTextarea.focus();
+		tempTextarea.select();
+
+		// Try to copying content using exeCommand method
+		try {
+			let copyResponse = document.exeCommand('copy');
+			let copyResponseMessage = copyResponse ? 'copied' : 'denied';
+			console.warn(copyResponseMessage);
+		} catch (error) {
+			console.warn(error);
+		}
+
+		document.body.removeChild(tempTextarea);
+
+		return true;
+	}
+
+	// If clipboard permission is available copying by navigator api
+	navigator.clipboard.writeText(content).then(function () {
+		console.log('copied');
+	},
+	function(error) {
+		console.warn(error);
+	});
+
+}
+
 /*==============================*/
 /*       Onload Function        */
 /*==============================*/
@@ -503,5 +548,11 @@ window.onload = function () {
 
 	// Event Listener for On change event of Currency Checkbox Input
 	document.getElementById('currencyFormat').addEventListener('change', togglecurrencyPrefixSuffixInput);
+
+	// Event Listener for Click event of copy formattedNumber Text Field
+	document.getElementById('copyFormattedNumber').addEventListener('click', function(e) {
+		let content = document.getElementById('formattedNumber').innerText;
+		copyToClipBoard(content);
+	});
 
 }
