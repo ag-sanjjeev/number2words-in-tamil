@@ -119,6 +119,9 @@ const __placesValue_continuous = ["ஆயிரத்து", "லட்சத�
 // Alternative number words in Tamil unicode
 const __numbers_alt = ["ஒரு"];
 
+// Tamil Numbers
+const __tamilNumbers = ["௦","௧","௨","௩","௪","௫","௬","௭","௮","௯"];
+
 // Script logics
 
 // Function to convert from number to text
@@ -132,6 +135,9 @@ function convertNum2Txt(form) {
 
 	// Removing any comma from the number
 	number = number.replaceAll(',', '');
+
+	// Convert tamil numbers to normal number to process
+	number = convertToNormalNumbers(number);
 
 	var numberText = '';
 	var fractionPartText = '';
@@ -344,13 +350,24 @@ function convertNum2Txt(form) {
 	finalResultText = convertMixedUnicodeToText(finalResultText);
 	resultContainer.innerHTML = finalResultText;
 
-	// Converting number as formated as Indian number system
-	let [number1, number2] = formattedNumber.split('.');
-	number2 = (isValid(number2)) ? number2 : 0;			
-	number2 = number2.toString().padEnd(2, 0);			
+	let formattedTamilNumber = '';
+	let resultFormattedNumber = formattedNumber;
+
+	if (isCurrency) {
+		let [number1, number2] = formattedNumber.split('.');
+		number2 = isValid(number2) ? number2 : 0;
+		number2 = number2.toString().padEnd(2, 0);
+
+		resultFormattedNumber = number1 + '.' + number2;
+	}
+
+	formattedTamilNumber = convertToTamilNumber(resultFormattedNumber);
 
 	// Displaying formated number into appropriate location
-	document.getElementById('formattedNumber').innerHTML = number1 + '.' + number2;
+	document.getElementById('formattedNumber').innerHTML = resultFormattedNumber;
+
+	// Displaying formated tamil number into appropriate location	
+	document.getElementById('formattedTamilNumber').innerHTML = formattedTamilNumber;	
 
 	// Make sure to prevent form being submitted by return false
 	return false;
@@ -382,13 +399,20 @@ function isInLimit(number) {
 
 // Function to convert from number to Indian number format
 function formatNumber(number, isCurrency) {
-	var intl = new Intl.NumberFormat('en-IN', {style: 'decimal', roundingPriority: 'morePrecision'});
+	let intlOptions = '';
 	var formattedNumber = '';
+	var intl = '';
+	
 	if (isCurrency) {
-		formattedNumber = intl.format(number, { minimumFractionDigits: 2 });
+		intlOptions = {style: 'decimal', maximumFractionDigits: 2};
 	} else {
-		formattedNumber = intl.format(number);
+		intlOptions = {style: 'decimal', roundingPriority: 'morePrecision'};
 	}
+	
+	intl = new Intl.NumberFormat('en-IN', intlOptions);
+	
+	formattedNumber = intl.format(number);
+	
 	return formattedNumber;
 }
 
@@ -499,6 +523,20 @@ function togglecurrencyPrefixSuffixInput() {
 	}
 }
 
+// Function to convert the numbers into tamil numbers
+function convertToTamilNumber(normalNumbers) {
+	__tamilNumbers.forEach(function(element, index) { normalNumbers = normalNumbers.replaceAll(index, element) });
+
+	return normalNumbers;
+}
+
+// Function to convert the tamil numbers to numbers
+function convertToNormalNumbers(tamilNumbers) {
+	__tamilNumbers.forEach(function(element, index) { tamilNumbers = tamilNumbers.replaceAll(element, index) });
+
+	return tamilNumbers;
+}
+
 // Function to copy the content into the clipboard
 function copyToClipBoard(content) {	
 
@@ -556,6 +594,18 @@ window.onload = function () {
 	// Event Listener for Click event of copy formattedNumber Text Field
 	document.getElementById('copyFormattedNumber').addEventListener('click', function(e) {
 		let content = document.getElementById('formattedNumber').innerText;
+		copyToClipBoard(content);
+	});
+
+	// Event Listener for Click event of copy formattedTamilNumber Text Field
+	document.getElementById('copyFormattedTamilNumber').addEventListener('click', function(e) {
+		let content = document.getElementById('formattedTamilNumber').innerText;
+		copyToClipBoard(content);
+	});
+
+	// Event Listener for Click event of copy resultText Text Field
+	document.getElementById('copyResultText').addEventListener('click', function(e) {
+		let content = document.getElementById('resultText').innerText;
 		copyToClipBoard(content);
 	});
 
