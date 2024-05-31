@@ -151,7 +151,7 @@ function convertNum2Txt(form) {
 	}
 
 	// Getting number format value for the given number
-	var formattedNumber = formatNumber(number);
+	var formattedNumber = formatNumber(number, isCurrency);
 
 	// Splitting into integer and decimal part if given
 	var [integerPart, decimalPart] = formattedNumber.split('.');
@@ -220,7 +220,7 @@ function convertNum2Txt(form) {
 	croreIntNumber = croreIntNumber.reverse().join('');
 
 	// converting into number format for crore number
-	var croreFormattedNumber = formatNumber(croreIntNumber);
+	var croreFormattedNumber = formatNumber(croreIntNumber, isCurrency);
 
 	// splitting into array by the comma for crore number
 	croreIntNumber = croreFormattedNumber.split(',');
@@ -336,7 +336,7 @@ function convertNum2Txt(form) {
 
 
 	// Displaying result in appropriate location with all other details
-	let finalResultText = rupeeSign + numberText + ' ' + decimalPartAdditional + ' ' + decimalPartText + ' ' + rupeeText;
+	let finalResultText = rupeeSign + numberText + ' ' + rupeeText + ' ' + decimalPartAdditional + ' ' + decimalPartText;
 	finalResultText = convertMixedUnicodeToText(finalResultText);
 	resultContainer.innerHTML = finalResultText;
 
@@ -377,9 +377,14 @@ function isInLimit(number) {
 }
 
 // Function to convert from number to Indian number format
-function formatNumber(number) {
-	var intl = new Intl.NumberFormat('en-IN');
-	var formattedNumber = intl.format(number, { minimumFractionDigit: 2 });
+function formatNumber(number, isCurrency) {
+	var intl = new Intl.NumberFormat('en-IN', {style: 'decimal', roundingPriority: 'morePrecision'});
+	var formattedNumber = '';
+	if (isCurrency) {
+		formattedNumber = intl.format(number, { minimumFractionDigits: 2 });
+	} else {
+		formattedNumber = intl.format(number);
+	}
 	return formattedNumber;
 }
 
