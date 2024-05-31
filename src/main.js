@@ -130,7 +130,7 @@ function convertNum2Txt(form) {
 	// Getting number value from the field
 	var number = form.number.value;
 	var numberText = '';
-	var decimalPartText = '';
+	var fractionPartText = '';
 	var resultContainer = document.getElementById('resultText');
 
 	// Getting the condition for currency format
@@ -139,7 +139,7 @@ function convertNum2Txt(form) {
 	var currencySuffix = document.getElementById('currencySuffix').checked;
 	let rupeeSign = '';
 	let rupeeText = '';
-	let decimalPartAdditional = '';
+	let fractionPartAdditional = '';
 
 	// Checks whether the given number is valid and in limit
 	if (!isValid(number)) {
@@ -153,61 +153,61 @@ function convertNum2Txt(form) {
 	// Getting number format value for the given number
 	var formattedNumber = formatNumber(number, isCurrency);
 
-	// Splitting into integer and decimal part if given
-	var [integerPart, decimalPart] = formattedNumber.split('.');
+	// Splitting into Decimal and Fraction part if given
+	var [decimalPart, fractionPart] = formattedNumber.split('.');
 
-	// Splitting integer number as per Indian number format system
-	var splitIntNumber = integerPart.split(',');
+	// Splitting decimal number as per Indian number format system
+	var splitIntNumber = decimalPart.split(',');
 
-	// Checks whether the decimal part number is valid
-	if (!isValid(decimalPart)) {
-		decimalPart = 0;
+	// Checks whether the fraction part number is valid
+	if (!isValid(fractionPart)) {
+		fractionPart = 0;
 	}
 	
-	// Checks whether the decimal number has exist or above the zero
-	if (decimalPart > 0) {
+	// Checks whether the fraction number has exist or above the zero
+	if (fractionPart > 0) {
 
 		// Checks if the currency format condition is checked 
 		if (isCurrency) {
 
-			// Converts into two decimal places
-			decimalPart = decimalPart.toString().substr(0,2);					
+			// Converts into two fraction places
+			fractionPart = fractionPart.toString().substr(0,2);					
 			
-			// Adding leading zeros at the beginning of the decimal part and convert into integer
-			decimalPart = parseInt(decimalPart.toString().padEnd(2, 0))
+			// Adding leading zeros at the beginning of the fraction part and convert into integer
+			fractionPart = parseInt(fractionPart.toString().padEnd(2, 0))
 
 			// if it is greater than zero
-			if (decimalPart > 0) {
+			if (fractionPart > 0) {
 				
 				// if it is equal to one and uses alternative number text or normal number text
-				if (decimalPart == 1) {
-					decimalPartText = __numbers_alt[(decimalPart - 1)] + ' பைசா ';
+				if (fractionPart == 1) {
+					fractionPartText = __numbers_alt[(fractionPart - 1)] + ' பைசா ';
 				} else {							
-					decimalPartText = __numbers[(decimalPart - 1)] + ' பைசா ';
+					fractionPartText = __numbers[(fractionPart - 1)] + ' பைசா ';
 				}
 
-				// this will add and word before decimal part exist
-				decimalPartAdditional = 'மற்றும்';
+				// this will add and word before fraction part exist
+				fractionPartAdditional = 'மற்றும்';
 			}
 
 		} else {
-			// splits the decimal part number into individual numbers
-			decimalPart = decimalPart.toString().split('');
+			// splits the fraction part number into individual numbers
+			fractionPart = fractionPart.toString().split('');
 
-			// Adding number text for corresponding decimal numbers
-			decimalPart.forEach(function(_x) {
+			// Adding number text for corresponding fraction numbers
+			fractionPart.forEach(function(_x) {
 				// converting into integer
 				_x = parseInt(_x);
 				// if it zero then adds zero word or number word
 				if (_x == 0) {
-					decimalPartText += 'சுழியம்' + ' ';
+					fractionPartText += 'சுழியம்' + ' ';
 				} else {
-					decimalPartText += __numbers[(_x - 1)] + ' ';
+					fractionPartText += __numbers[(_x - 1)] + ' ';
 				}						
 			});
 
-			// this will add point word before decimal part exist
-			decimalPartAdditional = 'புள்ளி';					
+			// this will add point word before fraction part exist
+			fractionPartAdditional = 'புள்ளி';					
 		}
 
 	}
@@ -336,7 +336,7 @@ function convertNum2Txt(form) {
 
 
 	// Displaying result in appropriate location with all other details
-	let finalResultText = rupeeSign + numberText + ' ' + rupeeText + ' ' + decimalPartAdditional + ' ' + decimalPartText;
+	let finalResultText = rupeeSign + numberText + ' ' + rupeeText + ' ' + fractionPartAdditional + ' ' + fractionPartText;
 	finalResultText = convertMixedUnicodeToText(finalResultText);
 	resultContainer.innerHTML = finalResultText;
 
