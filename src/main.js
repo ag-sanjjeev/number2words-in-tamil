@@ -129,6 +129,10 @@ function convertNum2Txt(form) {
 
 	// Getting number value from the field
 	var number = form.number.value;
+
+	// Removing any comma from the number
+	number = number.replaceAll(',', '');
+
 	var numberText = '';
 	var fractionPartText = '';
 	var resultContainer = document.getElementById('resultText');
