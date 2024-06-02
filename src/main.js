@@ -139,9 +139,7 @@ function convertNum2Txt(form) {
 	// Convert tamil numbers to normal number to process
 	number = convertToNormalNumbers(number);
 
-	var numberText = '';
-	var fractionPartText = '';
-	var resultContainer = document.getElementById('resultText');
+	var resultTextField = document.getElementById('resultText');
 
 	// Getting the condition for currency format
 	var isCurrency = document.getElementById('currencyFormat').checked;
@@ -149,7 +147,7 @@ function convertNum2Txt(form) {
 	var currencySuffix = document.getElementById('currencySuffix').checked;
 	let rupeeSign = '';
 	let rupeeText = '';
-	let fractionPartAdditional = '';
+	let paisaText = '';
 
 	// Checks whether the given number is valid and in limit
 	if (!isValid(number)) {
@@ -160,6 +158,58 @@ function convertNum2Txt(form) {
 		return false;
 	}
 
+	var outputTexts = getTamilNumberText(number, isCurrency);	
+	console.log(outputTexts);
+	// Adding currency symbol if currency format and currencyPrefix checked
+	if (isCurrency && currencyPrefix) {
+		rupeeSign = '<i class="fa fa-rupee-sign pe-2"></i>';
+	}
+
+	// Adding currency text if currency format and currencySuffix checked
+	if (isCurrency && currencySuffix) {
+		rupeeText = "ரூபாய்";
+	}
+
+	if (isCurrency && outputTexts.fractionPart.trim() != '') {
+		paisaText = "பைசா";
+	}
+
+	// Displaying result in appropriate location with all other details
+	let finalResultText = rupeeSign + outputTexts.decimalPart + ' ' + rupeeText + ' ' + outputTexts.fractionPartAdditional + ' ' + outputTexts.fractionPart + ' ' + paisaText;
+	finalResultText = convertMixedUnicodeToText(finalResultText);
+	finalResultText = finalResultText.trim();
+	resultTextField.innerHTML = finalResultText;
+
+	let formattedTamilNumber = '';
+	let resultFormattedNumber = outputTexts.formattedNumber;
+
+	if (isCurrency) {
+		let [number1, number2] = outputTexts.formattedNumber.split('.');
+		number2 = isValid(number2) ? number2 : 0;
+		number2 = number2.toString().padEnd(2, 0);
+
+		resultFormattedNumber = number1 + '.' + number2;
+	}
+
+	formattedTamilNumber = convertToTamilNumber(resultFormattedNumber);
+
+	// Displaying formated number into appropriate location
+	document.getElementById('formattedNumber').innerHTML = resultFormattedNumber;
+
+	// Displaying formated tamil number into appropriate location	
+	document.getElementById('formattedTamilNumber').innerHTML = formattedTamilNumber;	
+
+	document.getElementById('resultContainer').classList.remove('d-none');
+
+	// Make sure to prevent form being submitted by return false
+	return false;
+}
+
+function getTamilNumberText(number, isCurrency) {
+
+	var numberText = '';
+	var fractionPartText = '';
+	var fractionPartAdditional = '';
 	// Getting number format value for the given number
 	var formattedNumber = formatNumber(number, isCurrency);
 
@@ -191,13 +241,11 @@ function convertNum2Txt(form) {
 				
 				// if it is equal to one and uses alternative number text or normal number text
 				if (fractionPart == 1) {
-					fractionPartText = __numbers_alt[(fractionPart - 1)] + ' பைசா ';
+					fractionPartText = __numbers_alt[(fractionPart - 1)];
 				} else {							
-					fractionPartText = __numbers[(fractionPart - 1)] + ' பைசா ';
+					fractionPartText = __numbers[(fractionPart - 1)];
 				}
 
-				// this will add and word before fraction part exist
-				fractionPartAdditional = 'மற்றும்';
 			}
 
 		} else {
@@ -215,11 +263,17 @@ function convertNum2Txt(form) {
 					fractionPartText += __numbers[(_x - 1)] + ' ';
 				}						
 			});
-
-			// this will add point word before fraction part exist
-			fractionPartAdditional = 'புள்ளி';					
+				
 		}
 
+	}
+
+	if (isCurrency && fractionPartText.trim() != '') {
+		// this will add and word before fraction part exist
+		fractionPartAdditional = 'மற்றும்';
+	} else if (fractionPartText.trim() != '') {
+		// this will add point word before fraction part exist
+		fractionPartAdditional = 'புள்ளி';	
 	}
 
 	// separating number arrays into lakhs range and crore range 
@@ -334,43 +388,7 @@ function convertNum2Txt(form) {
 	// Trimming any white spaces from text line
 	numberText = numberText.trim();
 
-	// Adding currency symbol if currency format and currencyPrefix checked
-	if (isCurrency && currencyPrefix) {
-		rupeeSign = '<i class="fa fa-rupee-sign pe-2"></i>';
-	}
-
-	// Adding currency text if currency format and currencySuffix checked
-	if (isCurrency && currencySuffix) {
-		rupeeText = "ரூபாய்";
-	}
-
-
-	// Displaying result in appropriate location with all other details
-	let finalResultText = rupeeSign + numberText + ' ' + rupeeText + ' ' + fractionPartAdditional + ' ' + fractionPartText;
-	finalResultText = convertMixedUnicodeToText(finalResultText);
-	resultContainer.innerHTML = finalResultText;
-
-	let formattedTamilNumber = '';
-	let resultFormattedNumber = formattedNumber;
-
-	if (isCurrency) {
-		let [number1, number2] = formattedNumber.split('.');
-		number2 = isValid(number2) ? number2 : 0;
-		number2 = number2.toString().padEnd(2, 0);
-
-		resultFormattedNumber = number1 + '.' + number2;
-	}
-
-	formattedTamilNumber = convertToTamilNumber(resultFormattedNumber);
-
-	// Displaying formated number into appropriate location
-	document.getElementById('formattedNumber').innerHTML = resultFormattedNumber;
-
-	// Displaying formated tamil number into appropriate location	
-	document.getElementById('formattedTamilNumber').innerHTML = formattedTamilNumber;	
-
-	// Make sure to prevent form being submitted by return false
-	return false;
+	return {formattedNumber: formattedNumber, decimalPart: numberText, fractionPart: fractionPartText, fractionPartAdditional: fractionPartAdditional};
 }
 
 // Function to check whether it is valid or not
@@ -417,7 +435,7 @@ function formatNumber(number, isCurrency) {
 }
 
 // Function that assigns Tamil number text to the correspond given number in unicode
-function textForNumber(number, place, isLastDigit,hasAnyVoid = true) { 
+function textForNumber(number, place, isLastDigit, hasAnyVoid = true) { 
 
 	// Getting as integer
 	var number = parseInt(number);
@@ -524,7 +542,7 @@ function togglecurrencyPrefixSuffixInput() {
 }
 
 // Function to convert the numbers into tamil numbers
-function convertToTamilNumber(normalNumbers) {
+function convertToTamilNumber(normalNumbers) { 
 	__tamilNumbers.forEach(function(element, index) { normalNumbers = normalNumbers.replaceAll(index, element) });
 
 	return normalNumbers;
