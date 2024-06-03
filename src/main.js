@@ -268,14 +268,6 @@ function getTamilNumberText(number, isCurrency) {
 
 	}
 
-	if (isCurrency && fractionPartText.trim() != '') {
-		// this will add and word before fraction part exist
-		fractionPartAdditional = 'மற்றும்';
-	} else if (fractionPartText.trim() != '') {
-		// this will add point word before fraction part exist
-		fractionPartAdditional = 'புள்ளி';	
-	}
-
 	// separating number arrays into lakhs range and crore range 
 	var lakhIntNumber = splitIntNumber.reverse().slice(0, 3);
 	var croreIntNumber = splitIntNumber.slice(3, splitIntNumber.length);
@@ -387,6 +379,19 @@ function getTamilNumberText(number, isCurrency) {
 
 	// Trimming any white spaces from text line
 	numberText = numberText.trim();
+
+
+	if (numberText != '' && isCurrency && fractionPartText.trim() != '') {
+		// this will add and word before fraction part exist
+		fractionPartAdditional = 'மற்றும்';
+	} else if (numberText != '' && fractionPartText.trim() != '') {
+		// this will add point word before fraction part exist
+		fractionPartAdditional = 'புள்ளி';	
+	} else if (numberText == '' && !isCurrency && fractionPartText.trim() != '') {
+		numberText = 'சுழியம்';
+		// this will add point word before fraction part exist
+		fractionPartAdditional = 'புள்ளி';	
+	}
 
 	return {formattedNumber: formattedNumber, decimalPart: numberText, fractionPart: fractionPartText, fractionPartAdditional: fractionPartAdditional};
 }
@@ -599,6 +604,7 @@ function copyToClipBoard(content) {
 	});
 
 }
+
 
 /*==============================*/
 /*       Onload Function        */
