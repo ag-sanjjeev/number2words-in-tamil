@@ -6,42 +6,54 @@
 	<title>எண் - எழுத்து மாற்றி</title>
 
 	<!-- Styles -->
-	<link rel="stylesheet" type="text/css" href="./thirdparty/bootstrap/bootstrap.css" media="all" />
-	<link rel="stylesheet" type="text/css" href="./thirdparty/icons/fontawesome/css/all.css" media="all" />
+	<!-- <link rel="stylesheet" type="text/css" href="./thirdparty/bootstrap/bootstrap.css" media="all" /> -->
+	<!-- <link rel="stylesheet" type="text/css" href="./thirdparty/icons/fontawesome/css/all.css" media="all" /> -->
 	<!-- CDNs -->
-	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css" integrity="sha512-usVBAd66/NpVNfBge19gws2j6JZinnca12rAe2l+d+QkLU9fiG02O1X8Q6hepIpr/EYKZvKx/I9WsnujJuOmBA==" crossorigin="anonymous" referrerpolicy="no-referrer" media="all" /> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css" integrity="sha512-usVBAd66/NpVNfBge19gws2j6JZinnca12rAe2l+d+QkLU9fiG02O1X8Q6hepIpr/EYKZvKx/I9WsnujJuOmBA==" crossorigin="anonymous" referrerpolicy="no-referrer" media="all" />
 
-	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" media="all" /> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" media="all" />
 
 </head>
 <body>
 
+	<!-- Main Container -->
 	<section class="main container-fluid">
 		
+		<!-- Row -->
 		<div class="row d-flex justify-content-center align-items-center vh-100">
 			
+			<!-- Col -->
 			<div class="col-md-6 col-lg-4">
 				
 				<!-- Form -->
 				<form action="#" method="post" onsubmit="return convertNum2Txt(this);" class="card px-0 py-0 rounded shadow">
 					
+					<!-- Noscript -->
 					<noscript>
 						<div class="card-header px-4 py-3">
 							<h3 class="text-center text-danger fw-bolder">Enable JavaScript</h3>
 						</div>
 					</noscript>
+					<!-- /. Noscript -->
 
+					<!-- Card Body -->
 					<div class="card-body px-4 py-3">
+						
+						<!-- Number Input Box -->
 						<div class="form-group mb-3">
 							<label for="number" class="form-label mb-3" role="button">எண்கள் உள்ளீடு</label>
 							<input type="text" name="number" id="number" class="form-control mb-3 user-select-none" placeholder="எண்களை உள்ளிடுக" value="" autofocus required />
 						</div>
+						<!-- /. Number Input Box -->
 
+						<!-- Currency Mode Check Box -->
 						<div class="form-group mb-3">
 							<input type="checkbox" name="currencyFormat" id="currencyFormat" class="form-check-input" value="true" />
 							<label for="currencyFormat" class="form-check-label user-select-none" role="button">பண முறை</label>
 						</div>
+						<!-- /. Currency Mode Check Box -->
 
+						<!-- Rupee sign and Rupee Text Prefix Suffix Check Box -->
 						<div class="form-group mb-3 d-flex flex-wrap d-none" id="currencyPrefixSuffixFormInputs">
 							<div class="pe-3 pb-3">							
 								<input type="checkbox" name="currencyPrefix" id="currencyPrefix" class="form-check-input" value="true" />
@@ -53,53 +65,78 @@
 								<label for="currencySuffix" class="form-check-label user-select-none" role="button">ரூபாய் பின்னொட்டு</label>
 							</div>
 						</div>
-					
+						<!-- /. Rupee sign and Rupee Text Prefix Suffix Check Box -->
+						
+						<!-- Calculate Button -->
 						<div class="form-group">
 							<button type="submit" class="btn btn-success w-100">மாற்றுக</button>
 						</div>
-					</div>
-										
+						<!-- /. Calculate Button -->
 
+					</div>
+					<!-- /. Card Body -->
+
+					<!-- Card Footer -->
 					<div class="card-footer px-4">
+
 						<p class="small">வெளியீடு</p>
+
+						<!-- Output Container -->
 						<div class="d-none" id="resultContainer">
+
+							<!-- formattedNumber Container -->
 							<div class="d-flex flex-wrap align-items-end mb-3 gap-2 ">	
 								<p class="lead text-end pill badge bg-secondary text-wrap text-break lh-lg mb-0" id="formattedNumber"></p>
 								<button class="btn btn-sm btn-outline-secondary" type="button" id="copyFormattedNumber">
 									<i class="fa fa-copy"></i>
 								</button>
 							</div>
+							<!-- /. formattedNumber Container -->
+
+							<!-- formattedTamilNumber Container -->
 							<div class="d-flex flex-wrap align-items-end mb-3 gap-2 ">	
 								<p class="lead text-end pill badge bg-secondary text-wrap text-break lh-lg mb-0" id="formattedTamilNumber"></p>
 								<button class="btn btn-sm btn-outline-secondary" type="button" id="copyFormattedTamilNumber">
 									<i class="fa fa-copy"></i>
 								</button>
 							</div>
+							<!-- /. formattedTamilNumber Container -->
+
+							<!-- Result Text Container -->
 							<div class="d-flex flex-nowrap align-items-end mb-3 gap-2">
 								<p class="lead pill badge bg-light border border-primary text-primary text-start text-wrap text-break lh-lg mb-0" id="resultText"></p>
 								<button class="btn btn-sm btn-outline-primary" type="button" id="copyResultText">
 									<i class="fa fa-copy"></i>
 								</button>
-							</div>			
+							</div>	
+							<!-- /. Result Text Container -->
+
 						</div>
+						<!-- /. Output Container -->
+
 					</div>
+					<!-- /. Card Footer -->
 
 				</form>
+				<!-- /. Form -->
 
 			</div>
+			<!-- /. Col -->
 
 		</div>
+		<!-- /. Row -->
 
 	</section>
+	<!-- /. Main Container -->
 
 	<!-- Scripts -->
-	<script type="text/javascript" src="./thirdparty/scripts/jquery-3.6.0.min.js"></script>
-	<script type="text/javascript" src="./thirdparty/bootstrap/bootstrap.bundle.js"></script>
+	<!-- <script type="text/javascript" src="./thirdparty/scripts/jquery-3.6.0.min.js"></script> -->
+	<!-- <script type="text/javascript" src="./thirdparty/bootstrap/bootstrap.bundle.js"></script> -->
 
 	<!-- CDNs -->
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js" integrity="sha512-72WD92hLs7T5FAXn3vkNZflWG6pglUDDpm87TeQmfSg8KnrymL2G30R7as4FmTwhgu9H7eSzDCX3mjitSecKnw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js" integrity="sha512-72WD92hLs7T5FAXn3vkNZflWG6pglUDDpm87TeQmfSg8KnrymL2G30R7as4FmTwhgu9H7eSzDCX3mjitSecKnw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 	<!-- Custom Script -->
 	<script type="text/javascript" src="./src/main.js"></script>
