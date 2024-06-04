@@ -391,6 +391,8 @@ function getTamilNumberText(number, isCurrency) {
 		numberText = 'சுழியம்';
 		// this will add point word before fraction part exist
 		fractionPartAdditional = 'புள்ளி';	
+	} else if (numberText == '' && !isCurrency && fractionPartText.trim() == '') {
+		numberText = 'சுழியம்';
 	}
 
 	return {formattedNumber: formattedNumber, decimalPart: numberText, fractionPart: fractionPartText, fractionPartAdditional: fractionPartAdditional};
