@@ -43,8 +43,12 @@ Here are some instructions on how to use the project:
 
 1. Enter the number into the input field.
 2. Click or Hit the Enter key to convert into words.
-3. If you want to toggle between currency format and scientific number format, then check or uncheck checkbox.
-4. Copy the result, at the below by selecting portion of the result or complete.
+3. If you want to toggle between currency mode and scientific mode, then check or uncheck checkbox.
+4. Once you chose currency mode then there is two option for currency mode.
+5. Add rupee sign checkbox to add rupee sign prefix to the Tamil words
+6. Add rupee text checkbox to add rupee text suffix to the Tamil words
+7. This will generate formatted number, Tamil Number and Tamil Words as result for the given input.
+4. Copy the result, at the below by clicking the button near to the text result box.
 
 ## License
 
